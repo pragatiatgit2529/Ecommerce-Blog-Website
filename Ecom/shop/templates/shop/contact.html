@@ -1,0 +1,67 @@
+{% extends 'shop/basic.html' %}
+{% block title %} Contact Us{% endblock %}
+{% block body %}
+
+<div class="container my-4">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-2">
+
+            <!-- THE CONTACT FORM IS HERE -->
+                <h2>Contact Us! regarding any issue :)</h2>
+                <form action="/shop/contact/" method='post'>{% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="name" class="form-control" id="name" name="name" placeholder="Enter your Name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Your Phone Number (with country code)</label>
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your Phone Number"
+                            name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Describe your concern here!</label>
+                        <textarea type="text" class="form-control" id="message" name="desc" placeholder="Your message" name="message"></textarea>
+                    </div>
+                    <div class="g-recaptcha" data-sitekey="6LdvcqwUAAAAACmPYNVoiJA7D84xLSQQt5g9p10m"></div>
+
+                    <button type="submit" class="btn btn-danger mt-2" >Submit</button>
+                </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+if(localStorage.getItem('cart') == null){
+var cart = {};
+}
+else
+{
+cart= JSON.parse(localStorage.getItem('cart'));
+document.getElementById('cart').innerHTML = Object.keys(cart).length;
+}
+$('.cart').click(function(){
+console.log('clicked')
+var idstr =  this.id.toString();
+console.log(idstr);
+if (cart[idstr] != undefined){
+cart[idstr] = cart[idstr] + 1;
+}
+else{
+cart[idstr] = 1;
+}
+console.log(cart);
+localStorage.setItem('cart', JSON.stringify(cart));
+document.getElementById('cart').innerHTML = Object.keys(cart).length;
+});
+$('#popcart').popover()
+document.getElementById("popcart").setAttribute("data-content","<h5>Cart</h5>");
+</script>
+{% endblock %}
